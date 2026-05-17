@@ -87,21 +87,21 @@ for _path in [
 os.environ["TEMP"] = str(ROOT / "TEMP")
 torch.manual_seed(114514)
 
-# Config.arg_parse() reads sys.argv; stub it so importing from a notebook
-# (where argv carries the ipykernel -f flag) doesn't blow up.
+# Config.arg_parse() reads sys.argv at *instantiation* time; stub argv
+# across both the import and the Config()/VC() construction so Jupyter's
+# -f kernel.json flag doesn't trip the parser.
 _saved_argv = sys.argv
 sys.argv = ["rvc_colab"]
 try:
     from configs.config import Config
     from infer.modules.vc.modules import VC
+    _config = Config()
+    _vc = VC(_config)
 finally:
     sys.argv = _saved_argv
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger("rvc-colab")
-
-_config = Config()
-_vc = VC(_config)
 _current_model: str | None = None
 
 SR_MAP = {"32k": 32000, "40k": 40000, "48k": 48000}
