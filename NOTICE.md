@@ -9,7 +9,3 @@ RVC-Project/Retrieval-based-Voice-Conversion-WebUI
 The upstream RVC-WebUI code is licensed under the MIT License. This repository keeps the upstream copyright notices in `LICENSE`.
 
 Original changes in this fork, including the Colab launcher, Drive-first workflow, asset downloader, and documentation, are licensed under the MIT License where separable.
-
-Downloaded model weights, pretrained assets, datasets, user recordings, and generated audio are outside this repository and may be governed by separate licenses, terms, or consent requirements.
-
-The software is provided as-is, without warranty or liability, as described in `LICENSE`.
