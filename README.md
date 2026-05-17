@@ -5,26 +5,25 @@ This is a trimmed Nvidia/Google Colab build of RVC focused on two workflows:
 - inference with `.pth` models and optional `.index` retrieval files
 - training a pitch-guided or non-pitch-guided RVC model, then building the retrieval index
 
-Removed from this build: DirectML/AMD/Intel paths, realtime audio-device UI, UVR vocal separation, ONNX demos, Docker/Windows launchers, multilingual docs, and the large bundled release archive.
+Removed from this build: DirectML/AMD/Intel paths, realtime audio-device UI, UVR vocal separation, ONNX demos, Docker/Windows launchers, multilingual docs, local VM storage, and the large bundled release archive.
 
-## Colab Quick Start
+## Use In Colab
 
-Use a GPU runtime, mount Google Drive first, then run:
+Open the notebook and run the cells in order:
 
-```python
-from google.colab import drive
-drive.mount("/content/drive")
+[Open RVC_Colab_Nvidia.ipynb in Colab](https://colab.research.google.com/github/Axel-Jalonen/RVC-Colab-Nvidia/blob/main/RVC_Colab_Nvidia.ipynb)
+
+The notebook mounts Google Drive, installs dependencies, downloads the required base assets, and launches the streamlined UI.
+
+## Canonical Drive Layout
+
+This repo intentionally uses one storage location only:
+
+```text
+/content/drive/MyDrive/RVC-Colab/
 ```
 
-```bash
-git clone https://github.com/Axel-Jalonen/RVC-Colab-Nvidia.git /content/RVC-Colab-Nvidia
-cd /content/RVC-Colab-Nvidia
-pip install -r requirements-colab.txt
-python tools/download_colab_assets.py
-python app_colab.py --colab
-```
-
-When Drive is mounted, the app automatically uses:
+Use these folders:
 
 ```text
 /content/drive/MyDrive/RVC-Colab/models/*.pth
@@ -32,15 +31,16 @@ When Drive is mounted, the app automatically uses:
 /content/drive/MyDrive/RVC-Colab/datasets/
 /content/drive/MyDrive/RVC-Colab/outputs/
 /content/drive/MyDrive/RVC-Colab/logs/
+/content/drive/MyDrive/RVC-Colab/assets/
 ```
 
-Set `RVC_DRIVE_ROOT` before launching if you want a different Drive folder. If Drive is not mounted, the app falls back to local VM storage.
+If Google Drive is not mounted, the app exits instead of falling back to the Colab VM filesystem.
 
-## Local Smoke Test
+## Local Checks
+
+This repository is built for Colab runtime execution. Local checks are limited to source validation:
 
 ```bash
 python -m compileall app_colab.py configs infer tools
-python app_colab.py --port 7865 --noautoopen
+python -m json.tool RVC_Colab_Nvidia.ipynb
 ```
-
-The app is intentionally narrow. If a feature is not needed for Colab Nvidia inference/training, it should stay out of this fork.

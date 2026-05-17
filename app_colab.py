@@ -25,25 +25,14 @@ os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 os.environ.setdefault("no_proxy", "localhost, 127.0.0.1, ::1")
 
 DRIVE_MOUNT = pathlib.Path("/content/drive/MyDrive")
-DRIVE_ROOT = pathlib.Path(
-    os.getenv("RVC_DRIVE_ROOT", str(DRIVE_MOUNT / "RVC-Colab"))
-).expanduser()
-USE_DRIVE = os.getenv("RVC_USE_DRIVE", "auto").lower()
+STORAGE_ROOT = DRIVE_MOUNT / "RVC-Colab"
 
 
-def drive_is_available():
-    return DRIVE_MOUNT.exists()
-
-
-def using_drive():
-    if USE_DRIVE in {"1", "true", "yes", "on"}:
-        return drive_is_available()
-    if USE_DRIVE in {"0", "false", "no", "off"}:
-        return False
-    return drive_is_available()
-
-
-STORAGE_ROOT = DRIVE_ROOT if using_drive() else ROOT
+if not DRIVE_MOUNT.exists():
+    raise RuntimeError(
+        "Google Drive is required. In Colab, run the notebook's Drive mount cell "
+        "before launching this app."
+    )
 
 os.environ.setdefault("weight_root", str(STORAGE_ROOT / "models"))
 os.environ.setdefault("index_root", str(STORAGE_ROOT / "logs"))
@@ -93,7 +82,7 @@ def _gpu_ids():
 
 
 def runtime_status():
-    storage = f"Storage: {'Google Drive' if STORAGE_ROOT != ROOT else 'local VM'} ({STORAGE_ROOT})"
+    storage = f"Storage: Google Drive ({STORAGE_ROOT})"
     if not torch.cuda.is_available():
         return "\n".join(
             [

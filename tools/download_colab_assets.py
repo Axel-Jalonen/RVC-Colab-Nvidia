@@ -1,13 +1,11 @@
 import argparse
-import os
 from pathlib import Path
 
 import requests
 
 BASE_URL = "https://huggingface.co/lj1995/VoiceConversionWebUI/resolve/main"
-ROOT = Path(__file__).resolve().parent.parent
 DRIVE_MOUNT = Path("/content/drive/MyDrive")
-DEFAULT_DRIVE_ROOT = Path(os.getenv("RVC_DRIVE_ROOT", str(DRIVE_MOUNT / "RVC-Colab")))
+STORAGE_ROOT = DRIVE_MOUNT / "RVC-Colab"
 
 
 PRETRAINED = [
@@ -45,20 +43,18 @@ def main():
     parser = argparse.ArgumentParser(description="Download only the assets needed for Nvidia Colab RVC.")
     parser.add_argument("--no-pretrained", action="store_true", help="Skip training pretrained G/D weights.")
     parser.add_argument("--overwrite", action="store_true", help="Replace existing files.")
-    parser.add_argument(
-        "--storage-root",
-        type=Path,
-        default=DEFAULT_DRIVE_ROOT if DRIVE_MOUNT.exists() else ROOT,
-        help="Persistent RVC storage root. Defaults to Google Drive when mounted.",
-    )
     args = parser.parse_args()
 
-    storage_root = args.storage_root.expanduser()
-    print(f"storage: {storage_root}")
+    if not DRIVE_MOUNT.exists():
+        raise RuntimeError(
+            "Google Drive is required. Mount Drive before downloading assets."
+        )
+
+    print(f"storage: {STORAGE_ROOT}")
 
     core_assets = [
-        ("hubert_base.pt", storage_root / "assets" / "hubert" / "hubert_base.pt"),
-        ("rmvpe.pt", storage_root / "assets" / "rmvpe" / "rmvpe.pt"),
+        ("hubert_base.pt", STORAGE_ROOT / "assets" / "hubert" / "hubert_base.pt"),
+        ("rmvpe.pt", STORAGE_ROOT / "assets" / "rmvpe" / "rmvpe.pt"),
     ]
 
     for remote, dest in core_assets:
@@ -68,12 +64,12 @@ def main():
         for model_name in PRETRAINED:
             download(
                 f"{BASE_URL}/pretrained/{model_name}",
-                storage_root / "assets" / "pretrained" / model_name,
+                STORAGE_ROOT / "assets" / "pretrained" / model_name,
                 args.overwrite,
             )
             download(
                 f"{BASE_URL}/pretrained_v2/{model_name}",
-                storage_root / "assets" / "pretrained_v2" / model_name,
+                STORAGE_ROOT / "assets" / "pretrained_v2" / model_name,
                 args.overwrite,
             )
 
