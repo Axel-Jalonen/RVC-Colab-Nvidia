@@ -33,14 +33,3 @@ Use these folders:
 /content/drive/MyDrive/RVC-Colab/logs/
 /content/drive/MyDrive/RVC-Colab/assets/
 ```
-
-If Google Drive is not mounted, the app exits instead of falling back to the Colab VM filesystem.
-
-## Local Checks
-
-This repository is built for Colab runtime execution. Local checks are limited to source validation:
-
-```bash
-python -m compileall app_colab.py configs infer tools
-python -m json.tool RVC_Colab_Nvidia.ipynb
-```
