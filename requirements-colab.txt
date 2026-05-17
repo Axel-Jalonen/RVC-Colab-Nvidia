@@ -5,7 +5,6 @@ scipy
 librosa>=0.10.2,<0.11
 ve-fairseq==0.12.3
 faiss-cpu>=1.8.0.post1
-gradio>=3.50,<4
 Cython
 pydub>=0.25.1
 soundfile>=0.12.1
@@ -30,6 +29,5 @@ colorama>=0.4.5
 pyworld>=0.3.5
 httpx
 torchfcpe
-ffmpy==0.3.1
 python-dotenv>=1.0.0
 av
