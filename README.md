@@ -17,13 +17,9 @@ The notebook mounts Google Drive, installs dependencies, downloads the required 
 
 ## Google Drive Permission Screen
 
-When Google asks what Drive access to allow, select only:
+Colab's Drive mount uses Google's broad Drive authorization flow. If you do not want to grant that access to your main Drive, use a dedicated Google account for this notebook.
 
-```text
-See, edit, create, and delete all of your Google Drive files.
-```
-
-Leave the other boxes unchecked. Do not use `Select all`.
+When Google asks what Drive access to allow, choose `Select all`. Selecting fewer boxes may produce a `credential propagation error unsuccessful` failure during Drive mount.
 
 ## Canonical Drive Layout
 
