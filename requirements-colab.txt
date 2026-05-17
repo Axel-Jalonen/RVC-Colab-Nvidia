@@ -29,7 +29,6 @@ audioread
 colorama>=0.4.5
 pyworld>=0.3.5
 httpx
-torchcrepe==0.0.20
 torchfcpe
 ffmpy==0.3.1
 python-dotenv>=1.0.0

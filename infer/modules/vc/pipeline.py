@@ -15,7 +15,6 @@ import parselmouth
 import pyworld
 import torch
 import torch.nn.functional as F
-import torchcrepe
 from scipy import signal
 
 now_dir = os.getcwd()
@@ -118,27 +117,6 @@ class Pipeline(object):
             f0 = cache_harvest_f0(input_audio_path, self.sr, f0_max, f0_min, 10)
             if filter_radius > 2:
                 f0 = signal.medfilt(f0, 3)
-        elif f0_method == "crepe":
-            model = "full"
-            # Pick a batch size that doesn't cause memory errors on your gpu
-            batch_size = 512
-            # Compute pitch using first gpu
-            audio = torch.tensor(np.copy(x))[None].float()
-            f0, pd = torchcrepe.predict(
-                audio,
-                self.sr,
-                self.window,
-                f0_min,
-                f0_max,
-                model,
-                batch_size=batch_size,
-                device=self.device,
-                return_periodicity=True,
-            )
-            pd = torchcrepe.filter.median(pd, 3)
-            f0 = torchcrepe.filter.mean(f0, 3)
-            f0[pd < 0.1] = 0
-            f0 = f0[0].cpu().numpy()
         elif f0_method == "rmvpe":
             if not hasattr(self, "model_rmvpe"):
                 from infer.lib.rmvpe import RMVPE

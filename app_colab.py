@@ -495,7 +495,7 @@ def build_ui():
                 converted = gr.Audio(label="Converted audio")
             with gr.Row():
                 transpose = gr.Slider(-24, 24, value=0, step=1, label="Pitch shift")
-                f0_method = gr.Radio(["rmvpe", "harvest", "crepe", "pm"], value="rmvpe", label="Pitch extractor")
+                f0_method = gr.Radio(["rmvpe", "harvest", "pm"], value="rmvpe", label="Pitch extractor")
                 index_rate = gr.Slider(0, 1, value=0.75, step=0.05, label="Index strength")
             with gr.Row():
                 filter_radius = gr.Slider(0, 7, value=3, step=1, label="F0 median filter")
