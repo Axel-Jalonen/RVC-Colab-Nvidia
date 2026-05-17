@@ -15,11 +15,19 @@ else:
     os.environ["CUDA_VISIBLE_DEVICES"] = str(i_gpu)
     version = sys.argv[6]
     is_half = sys.argv[7].lower() == "true"
-import fairseq
 import numpy as np
 import soundfile as sf
 import torch
 import torch.nn.functional as F
+
+# PyTorch 2.6 flipped torch.load's weights_only default to True, but fairseq's
+# load_checkpoint_to_cpu doesn't opt out. The hubert checkpoint we ship is
+# trusted (downloaded from lj1995/VoiceConversionWebUI), so restore the old
+# default before fairseq is imported.
+_torch_load = torch.load
+torch.load = lambda *a, **kw: _torch_load(*a, **{"weights_only": False, **kw})
+
+import fairseq
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 

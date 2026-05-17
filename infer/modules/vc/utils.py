@@ -1,5 +1,14 @@
 import os
 
+import torch
+
+# PyTorch 2.6 flipped torch.load's weights_only default to True, but fairseq's
+# load_checkpoint_to_cpu doesn't opt out. The hubert checkpoint is trusted
+# (downloaded from lj1995/VoiceConversionWebUI), so restore the old default
+# before fairseq is imported.
+_torch_load = torch.load
+torch.load = lambda *a, **kw: _torch_load(*a, **{"weights_only": False, **kw})
+
 from fairseq import checkpoint_utils
 
 
