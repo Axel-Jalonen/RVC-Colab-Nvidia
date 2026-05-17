@@ -15,6 +15,16 @@ Open the notebook and run the cells in order:
 
 The notebook mounts Google Drive, installs dependencies, downloads the required base assets, and launches the streamlined UI.
 
+## Google Drive Permission Screen
+
+When Google asks what Drive access to allow, select only:
+
+```text
+See, edit, create, and delete all of your Google Drive files.
+```
+
+Leave the other boxes unchecked. Do not use `Select all`.
+
 ## Canonical Drive Layout
 
 This repo intentionally uses one storage location only:
