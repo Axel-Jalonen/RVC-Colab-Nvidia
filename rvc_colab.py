@@ -19,6 +19,13 @@ Designed to be called directly from notebook cells:
 
 from __future__ import annotations
 
+import sys as _sys
+# Colab's Python 3.12 ships a broken pkg_resources in /usr/lib/python3/dist-packages
+# (uses pkgutil.ImpImporter, removed in 3.12). The pip-upgraded setuptools lives in
+# /usr/local/... but the Debian path can shadow it. Drop it so fairseq imports work.
+_sys.path[:] = [p for p in _sys.path if "/usr/lib/python3/dist-packages" not in p]
+_sys.modules.pop("pkg_resources", None)
+
 import json
 import logging
 import os
