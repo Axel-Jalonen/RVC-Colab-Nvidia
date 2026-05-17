@@ -43,3 +43,13 @@ Use these folders:
 /content/drive/MyDrive/RVC-Colab/logs/
 /content/drive/MyDrive/RVC-Colab/assets/
 ```
+
+## License And Liability
+
+This repository contains code derived from RVC-WebUI and preserves its MIT license terms and copyright notices.
+
+Original Colab/Nvidia streamlining, documentation, and wrapper code in this fork are also provided under the MIT License where separable.
+
+Model weights, datasets, audio, and downloaded external assets are not included in this repository and may have their own licenses or usage restrictions. You are responsible for using voices, recordings, datasets, and generated audio lawfully and with appropriate consent.
+
+This software is provided as-is, without warranty of any kind. The authors and contributors are not liable for claims, damages, misuse, data loss, account issues, generated outputs, or other liability arising from use of this project.
